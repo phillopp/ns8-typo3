@@ -1,0 +1,37 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+set -e -o pipefail
+exec 1>&2 # Redirect any output to the journal (stderr)
+
+mkdir -vp restore
+cat - >restore/kickstart_restore.sh <<'EOS'
+# Read dump file from standard input:
+pg_restore --no-owner --no-privileges -U postgres -d kickstart
+ec=$?
+docker_temp_server_stop
+exit $ec
+EOS
+
+# Override the image /docker-entrypoint-initdb.d contents, to restore the
+# DB dump file. The container will be stopped at the end
+
+podman run \
+    --rm \
+    --interactive \
+    --network=none \
+    --volume=./restore:/docker-entrypoint-initdb.d/:Z \
+    --volume=postgres-data:/var/lib/postgresql/data:Z \
+    --replace --name=restore_db \
+    --env POSTGRES_USER=postgres \
+    --env POSTGRES_PASSWORD=Nethesis,1234 \
+    --env POSTGRES_DB=kickstart \
+    --env TZ=UTC \
+    "${POSTGRES_IMAGE}" < kickstart.pg_dump
+
+# If the restore is successful, clean up:
+rm -rfv restore/ kickstart.pg_dump

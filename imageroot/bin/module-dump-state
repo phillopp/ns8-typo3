@@ -1,0 +1,11 @@
+#!/bin/bash
+
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+set -e
+
+echo "Dumping kickstart postgres database"
+podman exec postgresql-app pg_dump -U postgres --format=c  kickstart > kickstart.pg_dump
