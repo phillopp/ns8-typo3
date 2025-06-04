@@ -31,7 +31,7 @@ buildah run $typo3container -- composer create-project typo3/cms-base-distributi
 buildah config --env APACHE_DOCUMENT_ROOT=/var/www/html/typo3 $typo3container
 
 buildah run $typo3container -- sed -ri -e 's!/var/www/html!/var/www/html/typo3!g' /etc/apache2/sites-available/*.conf
-buildah run $typo3container -- sed -ri -e 's!/var/www/!/var/www/html/typo3!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+buildah run $typo3container -- sed -ri -e 's!/var/www/!/var/www/html/typo3!g' /etc/apache2/apache2.conf
 
 buildah commit "${typo3container}" "${repobase}/${reponame}-app"
 
