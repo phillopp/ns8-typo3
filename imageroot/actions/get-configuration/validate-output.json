@@ -1,11 +1,11 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Get kickstart settings",
-    "$id": "http://nethserver.org/json-schema/task/input/kickstart/get-configuration",
-    "description": "Get kickstart settings",
+    "title": "Get TYPO3 settings",
+    "$id": "http://nethserver.org/json-schema/task/input/typo3/get-configuration",
+    "description": "Get TYPO3 settings",
     "examples": [
         {
-            "host": "kickstart.domain.org",
+            "host": "typo3.domain.org",
             "http2https": true,
             "lets_encrypt": true
         }
@@ -19,7 +19,7 @@
     "properties": {
         "host": {
             "type": "string",
-            "description": "Host name for the application, like 'kickstart.domain.org'",
+            "description": "Host name for the application, like 'typo3.domain.org'",
             "format": "idn-hostname"
         },
         "lets_encrypt": {

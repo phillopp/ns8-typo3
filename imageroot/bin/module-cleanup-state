@@ -5,4 +5,4 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 #
 
-rm -vf kickstart.pg_dump
+rm -vf typo3.pg_dump

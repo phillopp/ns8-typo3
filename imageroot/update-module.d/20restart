@@ -12,4 +12,4 @@ set -e
 # Redirect any output to the journal (stderr)
 exec 1>&2
 
-systemctl --user try-restart kickstart.service
+systemctl --user try-restart typo3.service

@@ -1,19 +1,19 @@
 {
-  "name": "kickstart",
+  "name": "typo3",
   "description": {
-    "en": "My kickstart module"
+    "en": "TYPO3 CMS"
   },
   "categories": [],
   "authors": [
     {
-      "name": "Name Surname",
-      "email": "author@yourmail.org"
+      "name": "Philip Falliano",
+      "email": "philip.falliano@phillopp.de"
     }
   ],
   "docs": {
-    "documentation_url": "https://docs.kickstart.com/",
+    "documentation_url": "https://docs.typo3.org/",
     "bug_url": "https://github.com/NethServer/dev",
-    "code_url": "https://github.com/author/ns8-kickstart"
+    "code_url": "https://github.com/phillopp/ns8-typo3"
   },
-  "source": "ghcr.io/nethserver/kickstart"
+  "source": "ghcr.io/phillopp/typo3"
 }

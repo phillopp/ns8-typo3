@@ -24,8 +24,8 @@
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
             <cv-text-input
-              :label="$t('settings.kickstart_fqdn')"
-              placeholder="kickstart.example.org"
+              :label="$t('settings.typo3_fqdn')"
+              placeholder="typo3.example.org"
               v-model.trim="host"
               class="mg-bottom"
               :invalid-message="$t(error.host)"

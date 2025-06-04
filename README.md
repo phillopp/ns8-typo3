@@ -1,48 +1,19 @@
-# ns8-kickstart
-
-This is a template module for [NethServer 8](https://github.com/NethServer/ns8-core).
-To start a new module from it:
-
-1. Click on [Use this template](https://github.com/NethServer/ns8-kickstart/generate).
-   Name your repo with `ns8-` prefix (e.g. `ns8-mymodule`). 
-   Do not end your module name with a number, like ~~`ns8-baaad2`~~!
-
-1. Clone the repository, enter the cloned directory and
-   [configure your GIT identity](https://git-scm.com/book/en/v2/Getting-Started-First-Time-Git-Setup#_your_identity)
-
-1. Rename some references inside the repo:
-   ```
-   modulename=$(basename $(pwd) | sed 's/^ns8-//') &&
-   git mv imageroot/systemd/user/kickstart.service imageroot/systemd/user/${modulename}.service &&
-   git mv imageroot/systemd/user/kickstart-app.service imageroot/systemd/user/${modulename}-app.service && 
-   git mv tests/kickstart.robot tests/${modulename}.robot &&
-   sed -i "s/kickstart/${modulename}/g" $(find .github/ * -type f) &&
-   git commit -a -m "Repository initialization"
-   ```
-
-1. Edit this `README.md` file, by replacing this section with your module
-   description
-
-1. Adjust `.github/workflows` to your needs. `clean-registry.yml` might
-   need the proper list of image names to work correctly. Unused workflows
-   can be disabled from the GitHub Actions interface.
-
-1. Commit and push your local changes
+# ns8-typo3
 
 ## Install
 
 Instantiate the module with:
 
-    add-module ghcr.io/nethserver/kickstart:latest 1
+    add-module ghcr.io/phillopp/typo3:latest 1
 
 The output of the command will return the instance name.
 Output example:
 
-    {"module_id": "kickstart1", "image_name": "kickstart", "image_url": "ghcr.io/nethserver/kickstart:latest"}
+    {"module_id": "typo31", "image_name": "typo3", "image_url": "ghcr.io/phillopp/typo3:latest"}
 
 ## Configure
 
-Let's assume that the mattermost instance is named `kickstart1`.
+Let's assume that the mattermost instance is named `typo31`.
 
 Launch `configure-module`, by setting the following parameters:
 - `host`: a fully qualified domain name for the application
@@ -53,9 +24,9 @@ Launch `configure-module`, by setting the following parameters:
 Example:
 
 ```
-api-cli run configure-module --agent module/kickstart1 --data - <<EOF
+api-cli run configure-module --agent module/typo31 --data - <<EOF
 {
-  "host": "kickstart.domain.com",
+  "host": "typo3.domain.com",
   "http2https": true,
   "lets_encrypt": false
 }
@@ -63,27 +34,27 @@ EOF
 ```
 
 The above command will:
-- start and configure the kickstart instance
+- start and configure the TYPO3 instance
 - configure a virtual host for trafik to access the instance
 
 ## Get the configuration
 You can retrieve the configuration with
 
 ```
-api-cli run get-configuration --agent module/kickstart1
+api-cli run get-configuration --agent module/typo31
 ```
 
 ## Uninstall
 
 To uninstall the instance:
 
-    remove-module --no-preserve kickstart1
+    remove-module --no-preserve typo31
 
 ## Update
 
 To Update the instance:
 
-    api-cli run update-module --data '{"module_url":"ghcr.io/nethserver/kickstart:latest","instances":["kickstart1"],"force":true}'
+    api-cli run update-module --data '{"module_url":"ghcr.io/nethserver/typo3:latest","instances":["typo31"],"force":true}'
 
 ## Smarthost setting discovery
 
@@ -92,14 +63,14 @@ Some configuration settings, like the smarthost setup, are not part of the
 Redis keys.  To ensure the module is always up-to-date with the
 centralized [smarthost
 setup](https://nethserver.github.io/ns8-core/core/smarthost/) every time
-kickstart starts, the command `bin/discover-smarthost` runs and refreshes
+typo3 starts, the command `bin/discover-smarthost` runs and refreshes
 the `state/smarthost.env` file with fresh values from Redis.
 
-Furthermore if smarthost setup is changed when kickstart is already
+Furthermore if smarthost setup is changed when typo3 is already
 running, the event handler `events/smarthost-changed/10reload_services`
 restarts the main module service.
 
-See also the `systemd/user/kickstart.service` file.
+See also the `systemd/user/typo3.service` file.
 
 This setting discovery is just an example to understand how the module is
 expected to work: it can be rewritten or discarded completely.
@@ -108,34 +79,34 @@ expected to work: it can be rewritten or discarded completely.
 
 some CLI are needed to debug
 
-- The module runs under an agent that initiate a lot of environment variables (in /home/kickstart1/.config/state), it could be nice to verify them
+- The module runs under an agent that initiate a lot of environment variables (in /home/typo31/.config/state), it could be nice to verify them
 on the root terminal
 
-    `runagent -m kickstart1 env`
+    `runagent -m typo31 env`
 
 - you can become runagent for testing scripts and initiate all environment variables
   
-    `runagent -m kickstart1`
+    `runagent -m typo31`
 
  the path become : 
 ```
     echo $PATH
-    /home/kickstart1/.config/bin:/usr/local/agent/pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/
+    /home/typo31/.config/bin:/usr/local/agent/pyenv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/usr/
 ```
 
 - if you want to debug a container or see environment inside
- `runagent -m kickstart1`
+ `runagent -m typo31`
  ```
 podman ps
 CONTAINER ID  IMAGE                                      COMMAND               CREATED        STATUS        PORTS                    NAMES
 d292c6ff28e9  localhost/podman-pause:4.6.1-1702418000                          9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  80b8de25945f-infra
 d8df02bf6f4a  docker.io/library/postgres:15.5-alpine3.19          --character-set-s...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  postgresql-app
-9e58e5bd676f  docker.io/library/nginx:stable-alpine3.17  nginx -g daemon o...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  kickstart-app
+9e58e5bd676f  docker.io/library/nginx:stable-alpine3.17  nginx -g daemon o...  9 minutes ago  Up 9 minutes  127.0.0.1:20015->80/tcp  typo3-app
 ```
 
 you can see what environment variable is inside the container
 ```
-podman exec  kickstart-app env
+podman exec  typo3-app env
 TERM=xterm
 container=podman
 NGINX_VERSION=1.24.0
@@ -150,7 +121,7 @@ HOME=/root
 you can run a shell inside the container
 
 ```
-podman exec -ti   kickstart-app sh
+podman exec -ti   typo3-app sh
 / # 
 ```
 ## Testing
@@ -158,7 +129,7 @@ podman exec -ti   kickstart-app sh
 Test the module using the `test-module.sh` script:
 
 
-    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/kickstart:latest
+    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/typo3:latest
 
 The tests are made using [Robot Framework](https://robotframework.org/)
 

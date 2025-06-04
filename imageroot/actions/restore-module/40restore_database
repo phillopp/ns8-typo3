@@ -9,9 +9,9 @@ set -e -o pipefail
 exec 1>&2 # Redirect any output to the journal (stderr)
 
 mkdir -vp restore
-cat - >restore/kickstart_restore.sh <<'EOS'
+cat - >restore/typo3_restore.sh <<'EOS'
 # Read dump file from standard input:
-pg_restore --no-owner --no-privileges -U postgres -d kickstart
+pg_restore --no-owner --no-privileges -U postgres -d typo3
 ec=$?
 docker_temp_server_stop
 exit $ec
@@ -29,9 +29,9 @@ podman run \
     --replace --name=restore_db \
     --env POSTGRES_USER=postgres \
     --env POSTGRES_PASSWORD=Nethesis,1234 \
-    --env POSTGRES_DB=kickstart \
+    --env POSTGRES_DB=typo3 \
     --env TZ=UTC \
-    "${POSTGRES_IMAGE}" < kickstart.pg_dump
+    "${POSTGRES_IMAGE}" < typo3.pg_dump
 
 # If the restore is successful, clean up:
-rm -rfv restore/ kickstart.pg_dump
+rm -rfv restore/ typo3.pg_dump

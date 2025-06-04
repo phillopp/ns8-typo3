@@ -43,7 +43,7 @@
       <cv-column :md="4" :max="4">
         <NsInfoCard
           light
-          :title="$t('status.kickstart_webapp')"
+          :title="$t('status.typo3_webapp')"
           :description="this.host ? this.host : $t('status.not_configured')"
           :icon="Wikis32"
           :loading="loading.getConfiguration"
