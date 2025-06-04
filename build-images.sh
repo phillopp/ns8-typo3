@@ -28,7 +28,7 @@ buildah run $typo3container -- mv composer.phar /usr/local/bin/composer
 
 buildah run $typo3container -- composer create-project typo3/cms-base-distribution typo3-project "^13"
 
-ENV APACHE_DOCUMENT_ROOT /var/www/html/typo3
+buildah config --env APACHE_DOCUMENT_ROOT=/var/www/html/typo3 $typo3container
 
 buildah run $typo3container -- sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
 buildah run $typo3container -- sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
