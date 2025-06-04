@@ -30,8 +30,8 @@ buildah run $typo3container -- composer create-project typo3/cms-base-distributi
 
 buildah config --env APACHE_DOCUMENT_ROOT=/var/www/html/typo3 $typo3container
 
-buildah run $typo3container -- sed -ri -e 's!/var/www/html!/var/www/html/typo3!g' /etc/apache2/sites-available/*.conf
-buildah run $typo3container -- sed -ri -e 's!/var/www/!/var/www/html/typo3!g' /etc/apache2/apache2.conf
+buildah run $typo3container -- sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+buildah run $typo3container -- sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 
 buildah commit "${typo3container}" "${repobase}/${reponame}-app"
 
@@ -68,7 +68,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@node:routeadm" \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/postgres:15.8-alpine3.19 ghcr.io/phillopp/typo3-app:latest" \
+    --label="org.nethserver.images=docker.io/postgres:15.8-alpine3.19 ghcr.io/phillopp/typo3-app:${IMAGETAG:-latest}" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
