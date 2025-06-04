@@ -30,10 +30,13 @@ buildah run $typo3container -- composer create-project typo3/cms-base-distributi
 
 buildah config --env APACHE_DOCUMENT_ROOT=/var/www/html/typo3 $typo3container
 
-#buildah run $typo3container -- sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
-#buildah run $typo3container -- sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+buildah run $typo3container -- sed -ri -e 's!/var/www/html!/var/www/html/typo3!g' /etc/apache2/sites-available/*.conf
+buildah run $typo3container -- sed -ri -e 's!/var/www/!/var/www/html/typo3!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
 buildah commit "${typo3container}" "${repobase}/${reponame}-app"
+
+# Append the image URL to the images array
+images+=("${repobase}/${reponame}-app")
 
 # Create a new empty container image
 container=$(buildah from scratch)
