@@ -17,6 +17,10 @@ reponame="typo3"
 
 # TYPO3-Image
 typo3container=$(buildah from php:8.4-apache)
+buildah run $typo3container -- apt-get update -yqq
+buildah run $typo3container -- apt-get install git gettext libcurl4-gnutls-dev libicu-dev libmcrypt-dev libvpx-dev libjpeg-dev libpng-dev libxpm-dev zlib1g-dev libfreetype6-dev libxml2-dev libexpat1-dev libbz2-dev libgmp3-dev libldap2-dev unixodbc-dev libpq-dev libsqlite3-dev libaspell-dev libsnmp-dev libpcre3-dev libtidy-dev libzip-dev zip cron libmemcached-dev libssl-dev -yqq
+buildah run $typo3container -- docker-php-ext-install pdo_pgsql curl intl gd xml zip bz2 opcache
+
 buildah add $typo3container https://getcomposer.org/installer ./composer-setup.php
 buildah run $typo3container -- php composer-setup.php
 buildah run $typo3container -- php -r "unlink('composer-setup.php');"
