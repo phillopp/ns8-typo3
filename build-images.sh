@@ -17,7 +17,7 @@ reponame="typo3"
 
 # TYPO3-Image
 typo3container=$(buildah from php:8.4-apache)
-buildah add --checksum dac665fdc30fdd8ec78b38b9800061b4150413ff2e3b6f88543c636f7cd84f6db9189d43a81e5503cda447da73c7e5b6 $typo3container https://getcomposer.org/installer ./composer-setup.php
+buildah add $typo3container https://getcomposer.org/installer ./composer-setup.php
 buildah run $typo3container -- php composer-setup.php
 buildah run $typo3container -- php -r "unlink('composer-setup.php');"
 buildah run $typo3container -- mv composer.phar /usr/local/bin/composer
