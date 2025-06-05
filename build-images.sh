@@ -31,6 +31,8 @@ buildah run $typo3container -- composer create-project typo3/cms-base-distributi
 buildah run $typo3container -- sed -ri -e 's!/var/www/html!/var/www/html/typo3-project/public!g' /etc/apache2/sites-available/*.conf
 buildah run $typo3container -- sed -ri -e 's!/var/www/!/var/www/html/typo3-project/public!g' /etc/apache2/apache2.conf
 
+buildah run $typo3container -- a2enmod rewrite
+
 buildah commit "${typo3container}" "${repobase}/${reponame}-app"
 
 # Append the image URL to the images array
