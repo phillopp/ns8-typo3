@@ -64,10 +64,11 @@
             <div>
               <cv-tag
                 kind="warm-gray"
-                v-for="(value, key) in packages"
-                :label="value + ': ' + key"
+                v-for="(pkg, version) in packages"
+                :label="pkg + ': ' + version"
                 filter
-                :key="value"
+                :key="pkg"
+                @remove.prevent="onRemovePackage(version)"
               />
             </div>
             <div>
@@ -199,6 +200,9 @@ export default {
     next();
   },
   methods: {
+    onRemovePackage(pkgName) {
+      delete this.packages[pkgName];
+    },
     onAddPackage() {
       this.packages[this.pkgName] = this.pkgVersion;
       this.pkgName = "";
