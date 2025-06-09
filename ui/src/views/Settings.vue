@@ -238,7 +238,6 @@ export default {
         console.error(`error creating task ${taskAction}`, err);
         this.error.getConfiguration = this.getErrorMessage(err);
         this.loading.getConfiguration = false;
-        return;
       }
     },
     getConfigurationAborted(taskResult, taskContext) {
@@ -251,6 +250,7 @@ export default {
       this.host = config.host;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
+      this.packages = config.packages;
 
       this.loading.getConfiguration = false;
       this.focusElement("host");
@@ -320,7 +320,7 @@ export default {
             host: this.host,
             lets_encrypt: this.isLetsEncryptEnabled,
             http2https: this.isHttpToHttpsEnabled,
-            packages: this.packages
+            packages: this.packages,
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
@@ -337,7 +337,6 @@ export default {
         console.error(`error creating task ${taskAction}`, err);
         this.error.configureModule = this.getErrorMessage(err);
         this.loading.configureModule = false;
-        return;
       }
     },
     configureModuleAborted(taskResult, taskContext) {
