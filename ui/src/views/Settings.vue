@@ -128,16 +128,6 @@
                     @click.prevent="onAddPackage"
                     >Package hinzufügen
                   </CvButton>
-                  <CvButton
-                    type="button"
-                    :icon="At20"
-                    :loading="loading.configureModule"
-                    :disabled="
-                      loading.getConfiguration || loading.configureModule
-                    "
-                    @click.prevent="onRemovePackage"
-                    >Package hinzufügen
-                  </CvButton>
                 </template>
               </cv-accordion-item>
             </cv-accordion>
@@ -236,6 +226,7 @@ export default {
     onRemovePackage(pkgName) {
       console.log("huhu", pkgName);
       delete this.packages[pkgName];
+      console.log(this.packages);
     },
     onAddPackage() {
       this.packages[this.pkgName] = this.pkgVersion;
