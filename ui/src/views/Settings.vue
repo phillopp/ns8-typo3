@@ -64,11 +64,11 @@
             <div>
               <cv-tag
                 kind="warm-gray"
-                v-for="(pkg, version) in packages"
+                v-for="(version, pkg) in packages"
                 :label="pkg + ': ' + version"
                 filter
                 :key="pkg"
-                @remove.prevent="onRemovePackage(version)"
+                @click.prevent="onRemovePackage(pkg)"
               />
             </div>
             <div>
