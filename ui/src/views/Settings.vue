@@ -64,10 +64,10 @@
             <div>
               <cv-tag
                 kind="warm-gray"
-                v-for="pkg in packages"
-                :label="pkg.label"
+                v-for="(value, key) in packages"
+                :label="value + ': ' + key"
                 filter
-                :key="pkg.name"
+                :key="value"
               />
             </div>
             <div>
@@ -161,7 +161,7 @@ export default {
       },
       urlCheckInterval: null,
       host: "",
-      packages: [],
+      packages: {},
       pkgName: "",
       pkgVersion: "",
       isLetsEncryptEnabled: false,
@@ -200,11 +200,9 @@ export default {
   },
   methods: {
     onAddPackage() {
-      this.packages.push({
-        version: this.pkgVersion,
-        name: this.pkgName,
-        label: '"' + this.pkgName + '":"' + this.pkgVersion + '"',
-      });
+      this.packages[this.pkgName] = this.pkgVersion;
+      this.pkgName = "";
+      this.pkgVersion = "";
     },
     async getConfiguration() {
       this.loading.getConfiguration = true;

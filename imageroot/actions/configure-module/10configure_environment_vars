@@ -36,8 +36,10 @@ data = json.load(sys.stdin)
 # Save packages to redis
 module_id = os.environ['MODULE_ID']
 
+agent.set_env("PKGTYPE", type(data.get("packages")))
+
 rdb = agent.redis_connect(privileged=True)
-rdb.hset(f"module/{module_id}/myhash", mapping=data.get("packages", {}))
+rdb.hset(f"module/{module_id}/composer", mapping=data.get("packages", {}))
 
 if data.get("packages"):
   agent.set_env("WROTE_PACKAGES", true)
