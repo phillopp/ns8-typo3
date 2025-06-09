@@ -1,7 +1,8 @@
 {
-  "name": "typo3",
+  "name": "TYPO3 CMS",
   "description": {
-    "en": "TYPO3 CMS"
+    "en": "TYPO3 CMS is an Open Source Enterprise Content Management System with a large global community, backed by the more than 1000 members of the TYPO3 Association.",
+    "de": "TYPO3 CMS ist ein Open Source Enterprise Content Management System mit einer großen globalen Community, die von den mehr als 1000 Mitgliedern der TYPO3 Association unterstützt wird."
   },
   "categories": [],
   "authors": [

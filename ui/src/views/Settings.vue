@@ -91,11 +91,11 @@
               >
               </cv-text-input>
               <CvButton
-                kind="primary"
+                type="button"
                 :icon="Add20"
                 :loading="loading.configureModule"
                 :disabled="loading.getConfiguration || loading.configureModule"
-                @click="onAddPackage"
+                @click.prevent="onAddPackage"
                 >Package hinzufügen</CvButton
               >
             </div>
