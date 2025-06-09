@@ -12,10 +12,10 @@
     <cv-row v-if="error.getConfiguration">
       <cv-column>
         <NsInlineNotification
-            kind="error"
-            :title="$t('action.get-configuration')"
-            :description="error.getConfiguration"
-            :showCloseButton="false"
+          kind="error"
+          :title="$t('action.get-configuration')"
+          :description="error.getConfiguration"
+          :showCloseButton="false"
         />
       </cv-column>
     </cv-row>
@@ -24,45 +24,41 @@
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
             <cv-text-input
-                :label="$t('settings.typo3_fqdn')"
-                placeholder="typo3.example.org"
-                v-model.trim="host"
-                class="mg-bottom"
-                :invalid-message="$t(error.host)"
-                :disabled="loading.getConfiguration || loading.configureModule"
-                ref="host"
+              :label="$t('settings.typo3_fqdn')"
+              placeholder="typo3.example.org"
+              v-model.trim="host"
+              class="mg-bottom"
+              :invalid-message="$t(error.host)"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              ref="host"
             >
             </cv-text-input>
             <cv-toggle
-                value="letsEncrypt"
-                :label="$t('settings.lets_encrypt')"
-                v-model="isLetsEncryptEnabled"
-                :disabled="loading.getConfiguration || loading.configureModule"
-                class="mg-bottom"
+              value="letsEncrypt"
+              :label="$t('settings.lets_encrypt')"
+              v-model="isLetsEncryptEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
             >
-              <template v-slot:text-left>{{
-                  $t("settings.disabled")
-                }}
+              <template v-slot:text-left
+                >{{ $t("settings.disabled") }}
               </template>
-              <template v-slot:text-right>{{
-                  $t("settings.enabled")
-                }}
+              <template v-slot:text-right
+                >{{ $t("settings.enabled") }}
               </template>
             </cv-toggle>
             <cv-toggle
-                value="httpToHttps"
-                :label="$t('settings.http_to_https')"
-                v-model="isHttpToHttpsEnabled"
-                :disabled="loading.getConfiguration || loading.configureModule"
-                class="mg-bottom"
+              value="httpToHttps"
+              :label="$t('settings.http_to_https')"
+              v-model="isHttpToHttpsEnabled"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              class="mg-bottom"
             >
-              <template v-slot:text-left>{{
-                  $t("settings.disabled")
-                }}
+              <template v-slot:text-left
+                >{{ $t("settings.disabled") }}
               </template>
-              <template v-slot:text-right>{{
-                  $t("settings.enabled")
-                }}
+              <template v-slot:text-right
+                >{{ $t("settings.enabled") }}
               </template>
             </cv-toggle>
             <!-- advanced options -->
@@ -76,10 +72,7 @@
                 <template v-slot:content>
                   <cv-grid>
                     <cv-row>
-                      <cv-column
-                          :sm="4"
-                          :lg="6"
-                        >
+                      <cv-column :sm="4" :lg="6">
                         <cv-tile
                           kind="clickable"
                           :value="pkg"
@@ -93,55 +86,57 @@
                       </cv-column>
                     </cv-row>
                   </cv-grid>
-
-                  <cv-list>
-                    <cv-list-item
-                      >{{ pkg }}: {{ version }}</cv-list-item
-                    >
-                  </cv-list>
                   <cv-grid :full-width="true" :kind="'wide'">
                     <cv-row>
                       <cv-column>
                         <cv-text-input
-                            label="Package"
-                            placeholder="typo3/cms-core"
-                            v-model.trim="pkgName"
-                            class="mg-bottom"
-                            :invalid-message="$t(error.pkgName)"
-                            :disabled="loading.getConfiguration || loading.configureModule"
-                            ref="pkgName"
+                          label="Package"
+                          placeholder="typo3/cms-core"
+                          v-model.trim="pkgName"
+                          class="mg-bottom"
+                          :invalid-message="$t(error.pkgName)"
+                          :disabled="
+                            loading.getConfiguration || loading.configureModule
+                          "
+                          ref="pkgName"
                         >
                         </cv-text-input>
                       </cv-column>
                       <cv-column>
                         <cv-text-input
-                            label="Version"
-                            placeholder="^13.4"
-                            v-model.trim="pkgVersion"
-                            class="mg-bottom"
-                            :invalid-message="$t(error.pkgVersion)"
-                            :disabled="loading.getConfiguration || loading.configureModule"
-                            ref="pkgVersion"
+                          label="Version"
+                          placeholder="^13.4"
+                          v-model.trim="pkgVersion"
+                          class="mg-bottom"
+                          :invalid-message="$t(error.pkgVersion)"
+                          :disabled="
+                            loading.getConfiguration || loading.configureModule
+                          "
+                          ref="pkgVersion"
                         >
                         </cv-text-input>
                       </cv-column>
                     </cv-row>
                   </cv-grid>
                   <CvButton
-                      type="button"
-                      :icon="Add20"
-                      :loading="loading.configureModule"
-                      :disabled="loading.getConfiguration || loading.configureModule"
-                      @click.prevent="onAddPackage"
-                  >Package hinzufügen
+                    type="button"
+                    :icon="Add20"
+                    :loading="loading.configureModule"
+                    :disabled="
+                      loading.getConfiguration || loading.configureModule
+                    "
+                    @click.prevent="onAddPackage"
+                    >Package hinzufügen
                   </CvButton>
                   <CvButton
-                      type="button"
-                      :icon="At20"
-                      :loading="loading.configureModule"
-                      :disabled="loading.getConfiguration || loading.configureModule"
-                      @click.prevent="onRemovePackage"
-                  >Package hinzufügen
+                    type="button"
+                    :icon="At20"
+                    :loading="loading.configureModule"
+                    :disabled="
+                      loading.getConfiguration || loading.configureModule
+                    "
+                    @click.prevent="onRemovePackage"
+                    >Package hinzufügen
                   </CvButton>
                 </template>
               </cv-accordion-item>
@@ -149,21 +144,20 @@
             <cv-row v-if="error.configureModule">
               <cv-column>
                 <NsInlineNotification
-                    kind="error"
-                    :title="$t('action.configure-module')"
-                    :description="error.configureModule"
-                    :showCloseButton="false"
+                  kind="error"
+                  :title="$t('action.configure-module')"
+                  :description="error.configureModule"
+                  :showCloseButton="false"
                 />
               </cv-column>
             </cv-row>
             <NsButton
-                kind="primary"
-                :icon="Save20"
-                :loading="loading.configureModule"
-                :disabled="loading.getConfiguration || loading.configureModule"
-            >{{ $t("settings.save") }}
-            </NsButton
-            >
+              kind="primary"
+              :icon="Save20"
+              :loading="loading.configureModule"
+              :disabled="loading.getConfiguration || loading.configureModule"
+              >{{ $t("settings.save") }}
+            </NsButton>
           </cv-form>
         </cv-tile>
       </cv-column>
@@ -173,7 +167,7 @@
 
 <script>
 import to from "await-to-js";
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 import {
   QueryParamService,
   UtilService,
@@ -240,6 +234,7 @@ export default {
   },
   methods: {
     onRemovePackage(pkgName) {
+      console.log("huhu", pkgName);
       delete this.packages[pkgName];
     },
     onAddPackage() {
@@ -255,25 +250,25 @@ export default {
 
       // register to task error
       this.core.$root.$once(
-          `${taskAction}-aborted-${eventId}`,
-          this.getConfigurationAborted
+        `${taskAction}-aborted-${eventId}`,
+        this.getConfigurationAborted
       );
 
       // register to task completion
       this.core.$root.$once(
-          `${taskAction}-completed-${eventId}`,
-          this.getConfigurationCompleted
+        `${taskAction}-completed-${eventId}`,
+        this.getConfigurationCompleted
       );
 
       const res = await to(
-          this.createModuleTaskForApp(this.instanceName, {
-            action: taskAction,
-            extra: {
-              title: this.$t("action." + taskAction),
-              isNotificationHidden: true,
-              eventId,
-            },
-          })
+        this.createModuleTaskForApp(this.instanceName, {
+          action: taskAction,
+          extra: {
+            title: this.$t("action." + taskAction),
+            isNotificationHidden: true,
+            eventId,
+          },
+        })
       );
       const err = res[0];
 
@@ -341,38 +336,38 @@ export default {
 
       // register to task error
       this.core.$root.$once(
-          `${taskAction}-aborted-${eventId}`,
-          this.configureModuleAborted
+        `${taskAction}-aborted-${eventId}`,
+        this.configureModuleAborted
       );
 
       // register to task validation
       this.core.$root.$once(
-          `${taskAction}-validation-failed-${eventId}`,
-          this.configureModuleValidationFailed
+        `${taskAction}-validation-failed-${eventId}`,
+        this.configureModuleValidationFailed
       );
 
       // register to task completion
       this.core.$root.$once(
-          `${taskAction}-completed-${eventId}`,
-          this.configureModuleCompleted
+        `${taskAction}-completed-${eventId}`,
+        this.configureModuleCompleted
       );
       const res = await to(
-          this.createModuleTaskForApp(this.instanceName, {
-            action: taskAction,
-            data: {
-              host: this.host,
-              lets_encrypt: this.isLetsEncryptEnabled,
-              http2https: this.isHttpToHttpsEnabled,
-              packages: this.packages,
-            },
-            extra: {
-              title: this.$t("settings.instance_configuration", {
-                instance: this.instanceName,
-              }),
-              description: this.$t("settings.configuring"),
-              eventId,
-            },
-          })
+        this.createModuleTaskForApp(this.instanceName, {
+          action: taskAction,
+          data: {
+            host: this.host,
+            lets_encrypt: this.isLetsEncryptEnabled,
+            http2https: this.isHttpToHttpsEnabled,
+            packages: this.packages,
+          },
+          extra: {
+            title: this.$t("settings.instance_configuration", {
+              instance: this.instanceName,
+            }),
+            description: this.$t("settings.configuring"),
+            eventId,
+          },
+        })
       );
       const err = res[0];
 
