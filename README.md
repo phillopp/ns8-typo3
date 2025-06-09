@@ -54,7 +54,7 @@ To uninstall the instance:
 
 To Update the instance:
 
-    api-cli run update-module --data '{"module_url":"ghcr.io/nethserver/typo3:latest","instances":["typo31"],"force":true}'
+    api-cli run update-module --data '{"module_url":"ghcr.io/phillopp/typo3:latest","instances":["typo31"],"force":true}'
 
 ## Smarthost setting discovery
 
@@ -129,7 +129,7 @@ podman exec -ti   typo3-app sh
 Test the module using the `test-module.sh` script:
 
 
-    ./test-module.sh <NODE_ADDR> ghcr.io/nethserver/typo3:latest
+    ./test-module.sh <NODE_ADDR> ghcr.io/phillopp/typo3:latest
 
 The tests are made using [Robot Framework](https://robotframework.org/)
 

@@ -63,6 +63,7 @@
             </cv-toggle>
             <div>
               <cv-tag
+                kind="warm-gray"
                 v-for="pkg in packages"
                 :label="pkg.label"
                 filter
