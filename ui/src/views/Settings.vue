@@ -61,12 +61,49 @@
                 $t("settings.enabled")
               }}</template>
             </cv-toggle>
-              <!-- advanced options -->
+            <div>
+              <cv-tag
+                v-for="pkg in packages"
+                :label="pkg.label"
+                filter
+                :key="pkg.name"
+              />
+            </div>
+            <div>
+              <cv-text-input
+                label="Package"
+                placeholder="typo3/cms-core"
+                v-model.trim="pkgName"
+                class="mg-bottom"
+                :invalid-message="$t(error.pkgName)"
+                :disabled="loading.getConfiguration || loading.configureModule"
+                ref="pkgName"
+              >
+              </cv-text-input>
+              <cv-text-input
+                label="Version"
+                placeholder="^13.4"
+                v-model.trim="pkgVersion"
+                class="mg-bottom"
+                :invalid-message="$t(error.pkgVersion)"
+                :disabled="loading.getConfiguration || loading.configureModule"
+                ref="pkgVersion"
+              >
+              </cv-text-input>
+              <CvButton
+                kind="primary"
+                :icon="Add20"
+                :loading="loading.configureModule"
+                :disabled="loading.getConfiguration || loading.configureModule"
+                @click="onAddPackage"
+                >Package hinzufügen</CvButton
+              >
+            </div>
+            <!-- advanced options -->
             <cv-accordion ref="accordion" class="maxwidth mg-bottom">
               <cv-accordion-item :open="toggleAccordion[0]">
                 <template slot="title">{{ $t("settings.advanced") }}</template>
-                <template slot="content">
-                </template>
+                <template slot="content"> </template>
               </cv-accordion-item>
             </cv-accordion>
             <cv-row v-if="error.configureModule">
@@ -123,6 +160,9 @@ export default {
       },
       urlCheckInterval: null,
       host: "",
+      packages: [],
+      pkgName: "",
+      pkgVersion: "",
       isLetsEncryptEnabled: false,
       isHttpToHttpsEnabled: true,
       loading: {
@@ -135,6 +175,9 @@ export default {
         host: "",
         lets_encrypt: "",
         http2https: "",
+        packages: "",
+        pkgName: "",
+        pkgVersion: "",
       },
     };
   },
@@ -155,6 +198,13 @@ export default {
     next();
   },
   methods: {
+    onAddPackage() {
+      this.packages.push({
+        version: this.pkgVersion,
+        name: this.pkgName,
+        label: '"' + this.pkgName + '":"' + this.pkgVersion + '"',
+      });
+    },
     async getConfiguration() {
       this.loading.getConfiguration = true;
       this.error.getConfiguration = "";
@@ -271,6 +321,7 @@ export default {
             host: this.host,
             lets_encrypt: this.isLetsEncryptEnabled,
             http2https: this.isHttpToHttpsEnabled,
+            packages: this.packages
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
