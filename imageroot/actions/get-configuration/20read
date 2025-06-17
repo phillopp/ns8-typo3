@@ -23,8 +23,8 @@ config["host"] = os.getenv("TRAEFIK_HOST","")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
 config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
 
-rdb = agent.redis_connect(privileged=False)
-config["packages"] = rdb.hgetall(f"module/{module_id}/composer")
+#rdb = agent.redis_connect(privileged=False)
+#config["packages"] = rdb.hgetall(f"module/{module_id}/composer")
 
 # Dump the configuration to stdout
 json.dump(config, fp=sys.stdout)

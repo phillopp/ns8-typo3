@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import json
+import sys
+import agent
+import os
+import subprocess
+
+data = json.load(sys.stdin)
+
+# Save packages to redis
+if not os.environ['INITIALIZED']:
+    subprocess.run(
+        [
+            "podman",
+            "exec",
+            "typo3-app",
+            "./vendor/bin/typo3",
+            "setup",
+            "--server-type apache",
+            "--driver postgres",
+            "--host 127.0.0.1",
+            "--port 5432",
+            "--dbname typo3",
+            "--username postgres",
+            "--password Nethesis,1234",
+            "--admin-username",
+            data.get('adminUsername', "admin"),
+            "--admin-user-password",
+            data.get('adminPassword', "Nethesis,1234"),
+            "--admin-email admin@email.de",
+            data.get('adminEmail', "mail@example.com"),
+            "--project-name",
+            data.get('projectName', "NethServer"),
+            "--create-site",
+            os.environ("TRAEFIK_HOST"),
+            "--force",
+            "-n"
+        ])
+    agent.set_env("INITIALIZED", True)
+
+# ./vendor/bin/typo3 setup --server-type apache --driver postgres --host host.docker.internal --port 5432 --dbname typo3-test --username postgres --password Nethesis,1234 --admin-username admin --admin-user-password "AdminUser123!" --admin-email meine@mail.de --project-name Phillopp --create-site http://localhost --force -n

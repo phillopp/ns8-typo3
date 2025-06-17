@@ -31,7 +31,12 @@ buildah run $typo3container -- composer create-project typo3/cms-base-distributi
 buildah run $typo3container -- sed -ri -e 's!/var/www/html!/var/www/html/typo3-project/public!g' /etc/apache2/sites-available/*.conf
 buildah run $typo3container -- sed -ri -e 's!/var/www/!/var/www/html/typo3-project/public!g' /etc/apache2/apache2.conf
 
+buildah run $typo3container -- chown -R www-data:www-data /var/www/html/typo3-project
+
 buildah run $typo3container -- a2enmod rewrite
+
+buildah run $typo3container -- apt-get clean
+buildah run $typo3container -- rm -rf /var/lib/apt/lists/*
 
 buildah commit "${typo3container}" "${repobase}/${reponame}-app"
 

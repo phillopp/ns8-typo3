@@ -13,5 +13,5 @@ exec 1>&2
 
 touch smarthost.env
 
-#systemctl --user enable typo3.service
-#systemctl --user restart typo3.service
+systemctl --user enable typo3.service
+systemctl --user restart typo3.service

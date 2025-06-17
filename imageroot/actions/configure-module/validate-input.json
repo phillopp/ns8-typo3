@@ -33,8 +33,17 @@
             "title": "HTTP to HTTPS redirection",
             "description": "Redirect all the HTTP requests to HTTPS"
         },
-        "packages": {
-            "type": "object"
+        "adminUsername": {
+            "type": "string"
+        },
+        "adminPassword": {
+            "type": "string"
+        },
+        "adminEmail": {
+            "type": "string"
+        },
+        "projectName": {
+            "type": "string"
         }
     }
 }

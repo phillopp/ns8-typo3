@@ -1,0 +1,41 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Get TYPO3 Composer Packages",
+    "$id": "http://nethserver.org/json-schema/task/input/typo3/get-composer-packages",
+    "description": "Get TYPO3 Composer Packages",
+    "examples": [
+        {
+            "packages": [
+                {
+                    "name": "georgringer/news",
+                    "version": "^12.3"
+                }
+            ]
+        }
+    ],
+    "type": "object",
+    "required": [
+        "packages"
+    ],
+    "properties": {
+        "packages": {
+            "type": "array",
+            "description": "Array of Composer Packages",
+            "items": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "version"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string"
+                    },
+                    "version": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}

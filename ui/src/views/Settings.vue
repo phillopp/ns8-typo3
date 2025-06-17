@@ -65,69 +65,55 @@
             <cv-accordion ref="accordion" class="maxwidth mg-bottom">
               <cv-accordion-item :open="toggleAccordion[0]">
                 <template v-slot:title>{{ $t("settings.advanced") }}</template>
-                <template v-slot:content></template>
-              </cv-accordion-item>
-              <cv-accordion-item :open="toggleAccordion[1]">
-                <template v-slot:title>Packages</template>
                 <template v-slot:content>
-                  <cv-grid>
-                    <cv-row>
-                      <cv-column :sm="4" :lg="6">
-                        <cv-tile
-                          kind="clickable"
-                          :value="pkg"
-                          @click.prevent="onRemovePackage(pkg)"
-                          v-for="(version, pkg) in packages"
-                          :key="pkg"
-                        >
-                          {{ pkg }}: {{ version }}<br />
-                          Zum Entfernen klicken
-                        </cv-tile>
-                      </cv-column>
-                    </cv-row>
-                  </cv-grid>
-                  <cv-grid :full-width="true" :kind="'wide'">
-                    <cv-row>
-                      <cv-column>
-                        <cv-text-input
-                          label="Package"
-                          placeholder="typo3/cms-core"
-                          v-model.trim="pkgName"
-                          class="mg-bottom"
-                          :invalid-message="$t(error.pkgName)"
-                          :disabled="
-                            loading.getConfiguration || loading.configureModule
-                          "
-                          ref="pkgName"
-                        >
-                        </cv-text-input>
-                      </cv-column>
-                      <cv-column>
-                        <cv-text-input
-                          label="Version"
-                          placeholder="^13.4"
-                          v-model.trim="pkgVersion"
-                          class="mg-bottom"
-                          :invalid-message="$t(error.pkgVersion)"
-                          :disabled="
-                            loading.getConfiguration || loading.configureModule
-                          "
-                          ref="pkgVersion"
-                        >
-                        </cv-text-input>
-                      </cv-column>
-                    </cv-row>
-                  </cv-grid>
-                  <CvButton
-                    type="button"
-                    :icon="Add20"
-                    :loading="loading.configureModule"
+                  <cv-text-input
+                    :label="$t('settings.project-name')"
+                    placeholder="admin"
+                    v-model.trim="projectName"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.projectName)"
                     :disabled="
                       loading.getConfiguration || loading.configureModule
                     "
-                    @click.prevent="onAddPackage"
-                    >Package hinzufügen
-                  </CvButton>
+                    ref="adminUsername"
+                  >
+                  </cv-text-input>
+                  <cv-text-input
+                    :label="$t('settings.admin-username')"
+                    placeholder="admin"
+                    v-model.trim="adminUsername"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.adminUsername)"
+                    :disabled="
+                      loading.getConfiguration || loading.configureModule
+                    "
+                    ref="adminUsername"
+                  >
+                  </cv-text-input>
+                  <cv-text-input
+                    :label="$t('settings.admin-password')"
+                    placeholder="admin"
+                    v-model.trim="adminPassword"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.adminPassword)"
+                    :disabled="
+                      loading.getConfiguration || loading.configureModule
+                    "
+                    ref="adminUsername"
+                  >
+                  </cv-text-input>
+                  <cv-text-input
+                    :label="$t('settings.admin-email')"
+                    placeholder="admin"
+                    v-model.trim="adminEmail"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.adminEmail)"
+                    :disabled="
+                      loading.getConfiguration || loading.configureModule
+                    "
+                    ref="adminUsername"
+                  >
+                  </cv-text-input>
                 </template>
               </cv-accordion-item>
             </cv-accordion>
@@ -185,11 +171,12 @@ export default {
       },
       urlCheckInterval: null,
       host: "",
-      packages: {},
-      pkgName: "",
-      pkgVersion: "",
       isLetsEncryptEnabled: false,
       isHttpToHttpsEnabled: true,
+      adminUsername: "",
+      adminPassword: "",
+      adminEmail: "",
+      projectName: "",
       loading: {
         getConfiguration: false,
         configureModule: false,
@@ -200,9 +187,10 @@ export default {
         host: "",
         lets_encrypt: "",
         http2https: "",
-        packages: "",
-        pkgName: "",
-        pkgVersion: "",
+        adminUsername: "",
+        adminPassword: "",
+        adminEmail: "",
+        projectName: "",
       },
     };
   },
@@ -223,16 +211,6 @@ export default {
     next();
   },
   methods: {
-    onRemovePackage(pkgName) {
-      console.log("huhu", pkgName);
-      delete this.packages[pkgName];
-      console.log(this.packages);
-    },
-    onAddPackage() {
-      this.packages[this.pkgName] = this.pkgVersion;
-      this.pkgName = "";
-      this.pkgVersion = "";
-    },
     async getConfiguration() {
       this.loading.getConfiguration = true;
       this.error.getConfiguration = "";
@@ -279,7 +257,6 @@ export default {
       this.host = config.host;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
-      this.packages = config.packages;
 
       this.loading.getConfiguration = false;
       this.focusElement("host");
@@ -349,7 +326,10 @@ export default {
             host: this.host,
             lets_encrypt: this.isLetsEncryptEnabled,
             http2https: this.isHttpToHttpsEnabled,
-            packages: this.packages,
+            adminUsername: this.adminUsername,
+            adminPassword: this.adminPassword,
+            adminEmail: this.adminEmail,
+            projectName: this.projectName,
           },
           extra: {
             title: this.$t("settings.instance_configuration", {

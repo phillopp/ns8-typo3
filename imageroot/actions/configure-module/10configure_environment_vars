@@ -39,7 +39,10 @@ module_id = os.environ['MODULE_ID']
 agent.set_env("PKGTYPE", type(data.get("packages")))
 
 rdb = agent.redis_connect(privileged=True)
-rdb.hset(f"module/{module_id}/composer", mapping=data.get("packages", {}))
 
 if data.get("packages"):
-  agent.set_env("WROTE_PACKAGES", true)
+  rdb.hset(f"module/{module_id}/composer", mapping=data.get("packages"))
+else:
+  rdb.hdel(f"module/{module_id}/composer", "*")
+
+# ./vendor/bin/typo3 setup --server-type apache --driver postgres --host host.docker.internal --port 5432 --dbname typo3-test --username postgres --password Nethesis,1234 --admin-username admin --admin-user-password "AdminUser123!" --admin-email meine@mail.de --project-name Phillopp --create-site http://localhost --force -n

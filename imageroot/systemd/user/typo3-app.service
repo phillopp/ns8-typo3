@@ -20,7 +20,7 @@ ExecStartPre=/bin/rm -f %t/typo3-app.pid %t/typo3-app.ctr-id
 ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/typo3-app.pid \
     --cidfile %t/typo3-app.ctr-id --cgroups=no-conmon \
-    --pod-id-file %t/typo3.pod-id --replace -d --name  typo3-app \
+    --pod-id-file %t/typo3.pod-id --replace -d --name typo3-app \
     --volume typo3-fileadmin:/var/www/html/fileadmin/:Z \
     --volume typo3-config:/var/www/html/typo3conf/:Z \
     --env=TYPO3_* \
