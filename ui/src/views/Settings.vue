@@ -72,9 +72,9 @@
             <!-- initialize options -->
             <cv-accordion ref="accordion" class="maxwidth mg-bottom">
               <cv-accordion-item :open="toggleAccordion[0]" v-if="!initialized">
-                <template v-slot:title>{{
-                  $t("settings.initialize")
-                }}</template>
+                <template v-slot:title
+                  >{{ $t("settings.initialize") }}
+                </template>
                 <template v-slot:content>
                   <cv-text-input
                     :label="$t('settings.project-name')"
@@ -272,6 +272,7 @@ export default {
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
       this.initialized = config.initialized;
+      this.additionalHostnames = config.additionalHostnames.replace(",", "\n");
 
       this.loading.getConfiguration = false;
       this.focusElement("host");

@@ -15,3 +15,5 @@ touch smarthost.env
 
 systemctl --user enable typo3.service
 systemctl --user restart typo3.service
+
+# podman exec --user www-data typo3-app cp ./vendor/typo3/cms-install/Resources/Private/FolderStructureTemplateFiles/root-htaccess ./public/.htaccess

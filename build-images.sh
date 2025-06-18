@@ -41,6 +41,8 @@ buildah run $typo3container -- a2enmod rewrite
 buildah run $typo3container -- apt-get clean
 buildah run $typo3container -- rm -rf /var/lib/apt/lists/*
 
+buildah config --workingdir /var/www/html/typo3-project/ $typo3container
+
 buildah commit "${typo3container}" "${repobase}/${reponame}-app"
 
 # Append the image URL to the images array

@@ -36,6 +36,10 @@
         "initialized": {
             "type": "boolean",
             "description": "Flag, if TYPO3-App is initialized"
+        },
+        "additionalHostnames": {
+            "type": "string",
+            "description": "Liste von zusätzlichen Hostnames"
         }
     }
 }

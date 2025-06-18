@@ -25,6 +25,8 @@ config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
 
 config["initialized"] = os.getenv("INITIALIZED", 'False') == "True"
 
+config["additionalHostnames"] = os.getenv("ADDITIONAL_HOSTNAMES", '')
+
 #rdb = agent.redis_connect(privileged=False)
 #config["packages"] = rdb.hgetall(f"module/{module_id}/composer")
 
