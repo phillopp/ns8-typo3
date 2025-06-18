@@ -7,7 +7,8 @@
         {
             "host": "typo3.domain.org",
             "http2https": true,
-            "lets_encrypt": true
+            "lets_encrypt": true,
+            "initialized": false
         }
     ],
     "type": "object",
@@ -31,6 +32,10 @@
             "type": "boolean",
             "title": "HTTP to HTTPS redirection",
             "description": "Redirect all the HTTP requests to HTTPS"
+        },
+        "initialized": {
+            "type": "boolean",
+            "description": "Flag, if TYPO3-App is initialized"
         }
     }
 }

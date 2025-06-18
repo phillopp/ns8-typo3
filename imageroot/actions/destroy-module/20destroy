@@ -31,5 +31,15 @@ response = agent.tasks.run(
     },
 )
 
+given_hosts = oldHost = os.environ.get('ADDITIONAL_HOSTS','').split(',')
+for given_host in given_hosts:
+    agent.tasks.run(
+        agent_id=agent.resolve_agent_id('traefik@node'),
+        action='delete-route',
+        data={
+            'instance': os.environ['MODULE_ID'] + "-" + given_host
+        },
+    )
+
 # Check if traefik configuration has been successfull
 agent.assert_exp(response['exit_code'] == 0)

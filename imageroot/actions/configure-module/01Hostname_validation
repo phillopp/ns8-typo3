@@ -9,9 +9,6 @@ import os
 import sys
 import json
 import agent
-import urllib.request
-import urllib.error
-import ssl
 
 agent.set_weight(os.path.basename(__file__), 0) # Validation step, no task progress at all
 
@@ -27,3 +24,12 @@ if host != oldHost and agent.http_route_in_use(domain=host):
     agent.set_status('validation-failed')
     json.dump([{'field':'host','parameter':'host','value':host,'error':'domain_already_used_in_traefik'}],fp=sys.stdout)
     sys.exit(2)
+
+additional_hosts = data.get("additionalHosts")
+given_hosts = os.environ.get('ADDITIONAL_HOSTS','').split(',')
+additional_hosts_list = []
+for additional_host in additional_hosts.splitlines():
+    if not agent.http_route_in_use(domain=additional_host) or additional_host in given_hosts:
+        additional_hosts_list.append(additional_host)
+
+agent.set_env('ADDITIONAL_HOSTS', ','.join(additional_hosts_list))

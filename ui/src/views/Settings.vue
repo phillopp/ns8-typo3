@@ -33,6 +33,14 @@
               ref="host"
             >
             </cv-text-input>
+            <cv-text-area
+              :label="$t('settings.additional_hostnames')"
+              v-model.trim="additionalHostnames"
+              class="mg-bottom"
+              :invalid-message="$t(error.additionalHostnames)"
+              helper-text="$t('settings.additional_hostnames_help')"
+              :disabled="loading.getConfiguration || loading.configureModule"
+            ></cv-text-area>
             <cv-toggle
               value="letsEncrypt"
               :label="$t('settings.lets_encrypt')"
@@ -61,14 +69,16 @@
                 >{{ $t("settings.enabled") }}
               </template>
             </cv-toggle>
-            <!-- advanced options -->
+            <!-- initialize options -->
             <cv-accordion ref="accordion" class="maxwidth mg-bottom">
-              <cv-accordion-item :open="toggleAccordion[0]">
-                <template v-slot:title>{{ $t("settings.advanced") }}</template>
+              <cv-accordion-item :open="toggleAccordion[0]" v-if="!initialized">
+                <template v-slot:title>{{
+                  $t("settings.initialize")
+                }}</template>
                 <template v-slot:content>
                   <cv-text-input
                     :label="$t('settings.project-name')"
-                    placeholder="admin"
+                    placeholder="My TYPO3-Project"
                     v-model.trim="projectName"
                     class="mg-bottom"
                     :invalid-message="$t(error.projectName)"
@@ -92,7 +102,7 @@
                   </cv-text-input>
                   <cv-text-input
                     :label="$t('settings.admin-password')"
-                    placeholder="admin"
+                    placeholder="MyPassword12!"
                     v-model.trim="adminPassword"
                     class="mg-bottom"
                     :invalid-message="$t(error.adminPassword)"
@@ -104,7 +114,7 @@
                   </cv-text-input>
                   <cv-text-input
                     :label="$t('settings.admin-email')"
-                    placeholder="admin"
+                    placeholder="admin@nethserver.org"
                     v-model.trim="adminEmail"
                     class="mg-bottom"
                     :invalid-message="$t(error.adminEmail)"
@@ -173,6 +183,8 @@ export default {
       host: "",
       isLetsEncryptEnabled: false,
       isHttpToHttpsEnabled: true,
+      initialized: false,
+      additionalHostnames: "",
       adminUsername: "",
       adminPassword: "",
       adminEmail: "",
@@ -191,6 +203,8 @@ export default {
         adminPassword: "",
         adminEmail: "",
         projectName: "",
+        initialized: "",
+        additionalHostnames: "",
       },
     };
   },
@@ -257,6 +271,7 @@ export default {
       this.host = config.host;
       this.isLetsEncryptEnabled = config.lets_encrypt;
       this.isHttpToHttpsEnabled = config.http2https;
+      this.initialized = config.initialized;
 
       this.loading.getConfiguration = false;
       this.focusElement("host");

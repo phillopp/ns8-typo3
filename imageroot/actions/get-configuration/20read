@@ -23,6 +23,8 @@ config["host"] = os.getenv("TRAEFIK_HOST","")
 config["http2https"] = os.getenv("TRAEFIK_HTTP2HTTPS") == "True"
 config["lets_encrypt"] = os.getenv("TRAEFIK_LETS_ENCRYPT") == "True"
 
+config["initialized"] = os.getenv("INITIALIZED", False)
+
 #rdb = agent.redis_connect(privileged=False)
 #config["packages"] = rdb.hgetall(f"module/{module_id}/composer")
 

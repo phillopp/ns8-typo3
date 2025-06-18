@@ -20,13 +20,14 @@ if not os.getenv('INITIALIZED', default = False):
     if os.getenv('TRAEFIK_LETS_ENCRYPT', default = False):
         schema = "https"
 
-    domain = os.environ("TRAEFIK_HOST")
+    domain = os.getenv("TRAEFIK_HOST")
     fqdn = f"{schema}://{domain}"
 
     subprocess.run(
         [
             "podman",
             "exec",
+            "--user=www-data",
             "typo3-app",
             "./typo3-project/vendor/bin/typo3",
             "setup",
