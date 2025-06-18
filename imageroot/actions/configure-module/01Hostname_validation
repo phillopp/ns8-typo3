@@ -25,7 +25,7 @@ if host != oldHost and agent.http_route_in_use(domain=host):
     json.dump([{'field':'host','parameter':'host','value':host,'error':'domain_already_used_in_traefik'}],fp=sys.stdout)
     sys.exit(2)
 
-additional_hosts = data.get("additionalHosts")
+additional_hosts = data.get("additionalHostnames")
 given_hosts = os.environ.get('ADDITIONAL_HOSTS','').split(',')
 additional_hosts_list = []
 for additional_host in additional_hosts.splitlines():

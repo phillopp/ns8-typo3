@@ -345,6 +345,7 @@ export default {
             adminPassword: this.adminPassword,
             adminEmail: this.adminEmail,
             projectName: this.projectName,
+            additionalHostnames: this.additionalHostnames,
           },
           extra: {
             title: this.$t("settings.instance_configuration", {
