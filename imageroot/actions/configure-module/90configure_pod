@@ -14,7 +14,14 @@ import subprocess
 data = json.load(sys.stdin)
 
 # Save packages to redis
-if not os.environ['INITIALIZED']:
+if not os.getenv('INITIALIZED', default = False):
+    schema = "http"
+
+    if os.getenv('TRAEFIK_LETS_ENCRYPT', default = False):
+        schema = "https"
+
+    fqdn = f"{schema}://{os.environ("TRAEFIK_HOST")}"
+
     subprocess.run(
         [
             "podman",
@@ -38,7 +45,7 @@ if not os.environ['INITIALIZED']:
             "--project-name",
             data.get('projectName', "NethServer"),
             "--create-site",
-            os.environ("TRAEFIK_HOST"),
+            fqdn,
             "--force",
             "-n"
         ])
