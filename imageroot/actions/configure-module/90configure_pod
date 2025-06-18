@@ -20,27 +20,35 @@ if not os.getenv('INITIALIZED', default = False):
     if os.getenv('TRAEFIK_LETS_ENCRYPT', default = False):
         schema = "https"
 
-    fqdn = f"{schema}://{os.environ("TRAEFIK_HOST")}"
+    domain = os.environ("TRAEFIK_HOST")
+    fqdn = f"{schema}://{domain}"
 
     subprocess.run(
         [
             "podman",
             "exec",
             "typo3-app",
-            "./vendor/bin/typo3",
+            "./typo3-project/vendor/bin/typo3",
             "setup",
-            "--server-type apache",
-            "--driver postgres",
-            "--host 127.0.0.1",
-            "--port 5432",
-            "--dbname typo3",
-            "--username postgres",
-            "--password Nethesis,1234",
+            "--server-type",
+            "apache",
+            "--driver",
+            "postgres",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "5432",
+            "--dbname",
+            "typo3",
+            "--username",
+            "postgres",
+            "--password",
+            "Nethesis,1234",
             "--admin-username",
             data.get('adminUsername', "admin"),
             "--admin-user-password",
             data.get('adminPassword', "Nethesis,1234"),
-            "--admin-email admin@email.de",
+            "--admin-email",
             data.get('adminEmail', "mail@example.com"),
             "--project-name",
             data.get('projectName', "NethServer"),

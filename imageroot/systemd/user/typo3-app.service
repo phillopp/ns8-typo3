@@ -21,11 +21,11 @@ ExecStartPre=-runagent discover-smarthost
 ExecStart=/usr/bin/podman run --conmon-pidfile %t/typo3-app.pid \
     --cidfile %t/typo3-app.ctr-id --cgroups=no-conmon \
     --pod-id-file %t/typo3.pod-id --replace -d --name typo3-app \
-    --volume typo3-fileadmin:/var/www/html/fileadmin/:Z \
-    --volume typo3-config:/var/www/html/typo3conf/:Z \
+    --volume typo3-fileadmin:/var/www/html/typo3-project/public/fileadmin/:Z \
+    --volume typo3-config:/var/www/html/typo3-project/config/:Z \
     --env=TYPO3_* \
     --env 'CONFIG_DATABASE_URI="postgresql://postgres:Nethesis,1234@127.0.0.1:5432/typo3"' \
-    ${TYPO3_IMAGE}
+    ${TYPO3_APP_IMAGE}
 ExecStop=/usr/bin/podman stop --ignore --cidfile %t/typo3-app.ctr-id -t 10
 ExecReload=/usr/bin/podman kill -s HUP typo3-app
 SyslogIdentifier=%u

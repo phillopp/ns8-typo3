@@ -31,6 +31,9 @@ buildah run $typo3container -- composer create-project typo3/cms-base-distributi
 buildah run $typo3container -- sed -ri -e 's!/var/www/html!/var/www/html/typo3-project/public!g' /etc/apache2/sites-available/*.conf
 buildah run $typo3container -- sed -ri -e 's!/var/www/!/var/www/html/typo3-project/public!g' /etc/apache2/apache2.conf
 
+buildah run $typo3container -- sed -ri -e 's!AllowOverride None!AllowOverride All!g' /etc/apache2/sites-available/*.conf
+buildah run $typo3container -- sed -ri -e 's!AllowOverride None!AllowOverride All!g' /etc/apache2/apache2.conf
+
 buildah run $typo3container -- chown -R www-data:www-data /var/www/html/typo3-project
 
 buildah run $typo3container -- a2enmod rewrite
