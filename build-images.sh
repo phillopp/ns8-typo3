@@ -43,6 +43,8 @@ buildah run $typo3container -- rm -rf /var/lib/apt/lists/*
 
 buildah config --workingdir /var/www/html/typo3-project/ $typo3container
 
+buildah run $typo3container -- cp vendor/typo3/cms-install/Resources/Private/FolderStructureTemplateFiles/root-htaccess ./public/.htaccess
+
 buildah commit "${typo3container}" "${repobase}/${reponame}-app"
 
 # Append the image URL to the images array
