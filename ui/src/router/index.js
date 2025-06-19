@@ -6,6 +6,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Status from "../views/Status.vue";
 import Settings from "../views/Settings.vue";
+import Packages from "@/views/Packages.vue";
 
 Vue.use(VueRouter);
 
@@ -15,6 +16,11 @@ const routes = [
     name: "Status",
     component: Status,
     alias: "/status", // important
+  },
+  {
+    path: "/packages",
+    name: "Packages",
+    component: Packages,
   },
   {
     path: "/settings",
