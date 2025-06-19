@@ -14,7 +14,7 @@ import subprocess
 data = json.load(sys.stdin)
 
 # Save packages to redis
-if not os.getenv('INITIALIZED', default = False):
+if os.getenv('INITIALIZED', default = 'False') == 'False':
     schema = "http"
 
     if os.getenv('TRAEFIK_LETS_ENCRYPT', default = False):

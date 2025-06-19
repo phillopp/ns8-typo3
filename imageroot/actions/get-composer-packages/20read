@@ -14,13 +14,8 @@ import sys
 import json
 import agent
 
-# Prepare return variable
-config = {}
-module_id = os.environ['MODULE_ID']
-
-# Read the packages
-rdb = agent.redis_connect(privileged=False)
-config["packages"] = rdb.hgetall(f"module/{module_id}/composer")
+with open('packages.json') as f:
+    packageData = json.load(f)
 
 # Dump the configuration to stdout
-json.dump(config, fp=sys.stdout)
+json.dump(packageData, fp=sys.stdout)

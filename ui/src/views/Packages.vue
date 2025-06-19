@@ -12,10 +12,10 @@
     <cv-row v-if="error.getPackages">
       <cv-column>
         <NsInlineNotification
-            kind="error"
-            :title="$t('action.get-configuration')"
-            :description="error.getPackages"
-            :showCloseButton="false"
+          kind="error"
+          :title="$t('action.get-configuration')"
+          :description="error.getPackages"
+          :showCloseButton="false"
         />
       </cv-column>
     </cv-row>
@@ -28,12 +28,12 @@
               <cv-row>
                 <cv-column :sm="4" :lg="6">
                   <cv-tile
-                      kind="clickable"
-                      @click.prevent="onRemovePackage(pkg)"
-                      v-for="(version, pkg) in packages"
-                      :key="pkg"
+                    kind="clickable"
+                    @click.prevent="onRemovePackage(pkg)"
+                    v-for="(version, pkg) in packages"
+                    :key="pkg"
                   >
-                    {{ pkg }}: {{ version }}<br/>
+                    {{ pkg }}: {{ version }}<br />
                     Zum Entfernen klicken
                   </cv-tile>
                 </cv-column>
@@ -43,60 +43,54 @@
               <cv-row>
                 <cv-column>
                   <cv-text-input
-                      label="Package"
-                      placeholder="typo3/cms-core"
-                      v-model.trim="pkgName"
-                      class="mg-bottom"
-                      :invalid-message="$t(error.pkgName)"
-                      :disabled="
-                            loading.getPackages || loading.configureModule
-                          "
-                      ref="pkgName"
+                    label="Package"
+                    placeholder="typo3/cms-core"
+                    v-model.trim="pkgName"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.pkgName)"
+                    :disabled="loading.getPackages || loading.configureModule"
+                    ref="pkgName"
                   >
                   </cv-text-input>
                 </cv-column>
                 <cv-column>
                   <cv-text-input
-                      label="Version"
-                      placeholder="^13.4"
-                      v-model.trim="pkgVersion"
-                      class="mg-bottom"
-                      :invalid-message="$t(error.pkgVersion)"
-                      :disabled="
-                            loading.getPackages || loading.configureModule
-                          "
-                      ref="pkgVersion"
+                    label="Version"
+                    placeholder="^13.4"
+                    v-model.trim="pkgVersion"
+                    class="mg-bottom"
+                    :invalid-message="$t(error.pkgVersion)"
+                    :disabled="loading.getPackages || loading.configureModule"
+                    ref="pkgVersion"
                   >
                   </cv-text-input>
                 </cv-column>
               </cv-row>
             </cv-grid>
             <CvButton
-                type="button"
-                :icon="Add20"
-                :loading="loading.configureModule"
-                :disabled="
-                      loading.getPackages || loading.configureModule
-                    "
-                @click.prevent="onAddPackage"
-            >Package hinzufügen
+              type="button"
+              :icon="Add20"
+              :loading="loading.configureModule"
+              :disabled="loading.getPackages || loading.configureModule"
+              @click.prevent="onAddPackage"
+              >Package hinzufügen
             </CvButton>
             <cv-row v-if="error.configureModule">
               <cv-column>
                 <NsInlineNotification
-                    kind="error"
-                    :title="$t('action.configure-module')"
-                    :description="error.configureModule"
-                    :showCloseButton="false"
+                  kind="error"
+                  :title="$t('action.configure-module')"
+                  :description="error.configureModule"
+                  :showCloseButton="false"
                 />
               </cv-column>
             </cv-row>
             <NsButton
-                kind="primary"
-                :icon="Save20"
-                :loading="loading.configureModule"
-                :disabled="loading.getPackages || loading.configureModule"
-            >{{ $t("settings.save") }}
+              kind="primary"
+              :icon="Save20"
+              :loading="loading.configureModule"
+              :disabled="loading.getPackages || loading.configureModule"
+              >{{ $t("settings.save") }}
             </NsButton>
           </cv-form>
         </cv-tile>
@@ -107,7 +101,7 @@
 
 <script>
 import to from "await-to-js";
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 import {
   QueryParamService,
   UtilService,
@@ -117,7 +111,7 @@ import {
 } from "@nethserver/ns8-ui-lib";
 
 export default {
-  name: "Settings",
+  name: "Packages",
   mixins: [
     TaskService,
     IconService,
@@ -183,25 +177,25 @@ export default {
 
       // register to task error
       this.core.$root.$once(
-          `${taskAction}-aborted-${eventId}`,
-          this.getPackagesAborted
+        `${taskAction}-aborted-${eventId}`,
+        this.getPackagesAborted
       );
 
       // register to task completion
       this.core.$root.$once(
-          `${taskAction}-completed-${eventId}`,
-          this.getPackagesCompleted
+        `${taskAction}-completed-${eventId}`,
+        this.getPackagesCompleted
       );
 
       const res = await to(
-          this.createModuleTaskForApp(this.instanceName, {
-            action: taskAction,
-            extra: {
-              title: this.$t("action." + taskAction),
-              isNotificationHidden: true,
-              eventId,
-            },
-          })
+        this.createModuleTaskForApp(this.instanceName, {
+          action: taskAction,
+          extra: {
+            title: this.$t("action." + taskAction),
+            isNotificationHidden: true,
+            eventId,
+          },
+        })
       );
       const err = res[0];
 
@@ -265,35 +259,35 @@ export default {
 
       // register to task error
       this.core.$root.$once(
-          `${taskAction}-aborted-${eventId}`,
-          this.configureModuleAborted
+        `${taskAction}-aborted-${eventId}`,
+        this.configureModuleAborted
       );
 
       // register to task validation
       this.core.$root.$once(
-          `${taskAction}-validation-failed-${eventId}`,
-          this.configureModuleValidationFailed
+        `${taskAction}-validation-failed-${eventId}`,
+        this.configureModuleValidationFailed
       );
 
       // register to task completion
       this.core.$root.$once(
-          `${taskAction}-completed-${eventId}`,
-          this.configureModuleCompleted
+        `${taskAction}-completed-${eventId}`,
+        this.configureModuleCompleted
       );
       const res = await to(
-          this.createModuleTaskForApp(this.instanceName, {
-            action: taskAction,
-            data: {
-              packages: this.packages,
-            },
-            extra: {
-              title: this.$t("settings.instance_configuration", {
-                instance: this.instanceName,
-              }),
-              description: this.$t("settings.configuring"),
-              eventId,
-            },
-          })
+        this.createModuleTaskForApp(this.instanceName, {
+          action: taskAction,
+          data: {
+            packages: this.packages,
+          },
+          extra: {
+            title: this.$t("settings.instance_configuration", {
+              instance: this.instanceName,
+            }),
+            description: this.$t("settings.configuring"),
+            eventId,
+          },
+        })
       );
       const err = res[0];
 

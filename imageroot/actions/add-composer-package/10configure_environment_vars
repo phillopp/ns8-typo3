@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+
+#
+# Copyright (C) 2022 Nethesis S.r.l.
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+
+import json
+import sys
+import agent
+import os
+import subprocess
+
+# Try to parse the stdin as JSON.
+# If parsing fails, output everything to stderr
+data = json.load(sys.stdin)
+
+pkg_name = data.get("packageName")
+pkg_version = data.get("packageVersion")
+
+with open('packages.json') as f:
+    packageData = json.load(f)
+    packageData[pkg_name] = pkg_version
+    json.dump(packageData, f)
+
+composer_package = f"{pkg_name}:{pkg_version}"
+
+subprocess.run(['podman', 'exec', '--user=www-data', 'typo3-app', 'composer', 'require', composer_package])

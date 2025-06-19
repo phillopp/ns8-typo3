@@ -27,9 +27,13 @@ if host != oldHost and agent.http_route_in_use(domain=host):
 
 additional_hosts = data.get("additionalHostnames")
 given_hosts = os.environ.get('ADDITIONAL_HOSTS','').split(',')
+hosts_to_delete = os.environ.get('ADDITIONAL_HOSTS','').split(',')
 additional_hosts_list = []
 for additional_host in additional_hosts.splitlines():
     if not agent.http_route_in_use(domain=additional_host) or additional_host in given_hosts:
         additional_hosts_list.append(additional_host)
+    else:
+        hosts_to_delete.remove(additional_host)
 
 agent.set_env('ADDITIONAL_HOSTS', ','.join(additional_hosts_list))
+agent.set_env('HOSTS_TO_DELETE', ','.join(hosts_to_delete))
