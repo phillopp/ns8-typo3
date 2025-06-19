@@ -44,11 +44,10 @@ response = agent.tasks.run(
         'host': host,
         'http2https': h2hs,
         'lets_encrypt': le,
-        'headers': {"accessControlAllowHeaders":["Referer"]}
     },
 )
 
-given_hosts = os.environ.get('ADDITIONAL_HOSTS','').split(',')
+given_hosts = os.environ.get('ADDITIONAL_HOSTNAMES','').split(',')
 for given_host in given_hosts:
     agent.tasks.run(
         agent_id=agent.resolve_agent_id('traefik@node'),
