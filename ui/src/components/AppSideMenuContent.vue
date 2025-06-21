@@ -18,28 +18,36 @@
         @click="goToAppPage(instanceName, 'status')"
         :class="{ 'current-page': isLinkActive('status') }"
       >
-        <template v-slot:nav-icon><Activity20 /></template>
+        <template v-slot:nav-icon>
+          <Activity20 />
+        </template>
         <span>{{ $t("status.title") }}</span>
       </cv-side-nav-link>
       <cv-side-nav-link
-          @click="goToAppPage(instanceName, 'packages')"
-          :class="{ 'current-page': isLinkActive('packages') }"
+        @click="goToAppPage(instanceName, 'packages')"
+        :class="{ 'current-page': isLinkActive('packages') }"
       >
-        <template v-slot:nav-icon><Settings20 /></template>
+        <template v-slot:nav-icon>
+          <Activity20 />
+        </template>
         <span>{{ $t("packages.title") }}</span>
       </cv-side-nav-link>
       <cv-side-nav-link
         @click="goToAppPage(instanceName, 'settings')"
         :class="{ 'current-page': isLinkActive('settings') }"
       >
-        <template v-slot:nav-icon><Settings20 /></template>
+        <template v-slot:nav-icon>
+          <Settings20 />
+        </template>
         <span>{{ $t("settings.title") }}</span>
       </cv-side-nav-link>
       <cv-side-nav-link
         @click="goToAppPage(instanceName, 'about')"
         :class="{ 'current-page': isLinkActive('about') }"
       >
-        <template v-slot:nav-icon><Information20 /></template>
+        <template v-slot:nav-icon>
+          <Information20 />
+        </template>
         <span>{{ $t("about.title") }}</span>
       </cv-side-nav-link>
     </cv-side-nav-items>

@@ -24,6 +24,7 @@
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
             <h1>Packages</h1>
+            {{ packages }}
             <cv-grid>
               <cv-row>
                 <cv-column :sm="4" :lg="6">
@@ -73,7 +74,7 @@
               :loading="loading.configureModule"
               :disabled="loading.getPackages || loading.configureModule"
               @click.prevent="onAddPackage"
-              >Package hinzufügen
+              >{{ $t("packages.add") }}
             </CvButton>
             <cv-row v-if="error.configureModule">
               <cv-column>
@@ -90,7 +91,7 @@
               :icon="Save20"
               :loading="loading.configureModule"
               :disabled="loading.getPackages || loading.configureModule"
-              >{{ $t("settings.save") }}
+              >{{ $t("packages.save") }}
             </NsButton>
           </cv-form>
         </cv-tile>
@@ -164,8 +165,61 @@ export default {
       delete this.packages[pkgName];
       console.log(this.packages);
     },
-    onAddPackage() {
+    async onAddPackage() {
       this.packages[this.pkgName] = this.pkgVersion;
+
+      this.error.test_imap = false;
+      this.error.test_smtp = false;
+      const isValidationOk = this.validateConfigureModule();
+      if (!isValidationOk) {
+        return;
+      }
+
+      this.loading.configureModule = true;
+      const taskAction = "add-composer-package";
+      const eventId = this.getUuid();
+
+      // register to task error
+      this.core.$root.$once(
+        `${taskAction}-aborted-${eventId}`,
+        this.configureModuleAborted
+      );
+
+      // register to task validation
+      this.core.$root.$once(
+        `${taskAction}-validation-failed-${eventId}`,
+        this.configureModuleValidationFailed
+      );
+
+      // register to task completion
+      this.core.$root.$once(
+        `${taskAction}-completed-${eventId}`,
+        this.configureModuleCompleted
+      );
+      const res = await to(
+        this.createModuleTaskForApp(this.instanceName, {
+          action: taskAction,
+          data: {
+            packageName: this.pkgName,
+            packageVersion: this.pkgVersion,
+          },
+          extra: {
+            title: this.$t("packages.instance_configuration", {
+              instance: this.instanceName,
+            }),
+            description: this.$t("packages.configuring"),
+            eventId,
+          },
+        })
+      );
+      const err = res[0];
+
+      if (err) {
+        console.error(`error creating task ${taskAction}`, err);
+        this.error.configureModule = this.getErrorMessage(err);
+        this.loading.configureModule = false;
+      }
+
       this.pkgName = "";
       this.pkgVersion = "";
     },
@@ -214,21 +268,11 @@ export default {
       this.packages = taskResult.output.packages;
 
       this.loading.getPackages = false;
-      this.focusElement("host");
+      this.focusElement("pkgName");
     },
     validateConfigureModule() {
       this.clearErrors(this);
-
-      let isValidationOk = true;
-      if (!this.host) {
-        this.error.host = "common.required";
-
-        if (isValidationOk) {
-          this.focusElement("host");
-        }
-        isValidationOk = false;
-      }
-      return isValidationOk;
+      return true;
     },
     configureModuleValidationFailed(validationErrors) {
       this.loading.configureModule = false;
@@ -237,7 +281,7 @@ export default {
       for (const validationError of validationErrors) {
         const param = validationError.parameter;
         // set i18n error message
-        this.error[param] = this.$t("settings." + validationError.error);
+        this.error[param] = this.$t("packages." + validationError.error);
 
         if (!focusAlreadySet) {
           this.focusElement(param);
@@ -254,7 +298,7 @@ export default {
       }
 
       this.loading.configureModule = true;
-      const taskAction = "configure-module";
+      const taskAction = "add-composer-package";
       const eventId = this.getUuid();
 
       // register to task error
@@ -281,10 +325,10 @@ export default {
             packages: this.packages,
           },
           extra: {
-            title: this.$t("settings.instance_configuration", {
+            title: this.$t("packages.instance_configuration", {
               instance: this.instanceName,
             }),
-            description: this.$t("settings.configuring"),
+            description: this.$t("packages.configuring"),
             eventId,
           },
         })
