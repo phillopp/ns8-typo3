@@ -20,7 +20,7 @@ pkg_version = data.get("packageVersion")
 
 with open('packages.json') as f:
   packageData = json.load(f)
-  packageData.pop(pkg_name, None)
+  packageData["packages"].pop(pkg_name, None)
   json.dump(packageData, f)
 
 composer_package = f"{pkg_name}:{pkg_version}"

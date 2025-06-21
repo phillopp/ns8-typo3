@@ -19,23 +19,8 @@
     ],
     "properties": {
         "packages": {
-            "type": "array",
-            "description": "Array of Composer Packages",
-            "items": {
-                "type": "object",
-                "required": [
-                    "name",
-                    "version"
-                ],
-                "properties": {
-                    "name": {
-                        "type": "string"
-                    },
-                    "version": {
-                        "type": "string"
-                    }
-                }
-            }
+            "type": "object",
+            "description": "Object of Composer Packages"
         }
     }
 }

@@ -17,6 +17,11 @@
         "save": "Speichern",
         "title": "Einstellungen"
     },
+    "packages": {
+        "title": "Pakete",
+        "save": "speichern",
+        "add": "Paket hinzufügen"
+    },
     "common": {
         "required": "erforderlich",
         "work_in_progress": "In Arbeit",

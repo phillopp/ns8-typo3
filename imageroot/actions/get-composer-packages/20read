@@ -14,6 +14,11 @@ import sys
 import json
 import agent
 
+# Ensure file exists
+if not os.path.exists('packages.json'):
+    with open('packages.json', 'w') as f:
+        json.dump({"packages": {}, "repositories": []}, f, indent=2)
+
 with open('packages.json') as f:
     packageData = json.load(f)
 
