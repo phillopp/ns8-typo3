@@ -80,7 +80,7 @@ buildah config --entrypoint=/ \
     --label="org.nethserver.authorizations=traefik@node:routeadm" \
     --label="org.nethserver.tcp-ports-demand=1" \
     --label="org.nethserver.rootfull=0" \
-    --label="org.nethserver.images=docker.io/postgres:15.8-alpine3.19 ghcr.io/phillopp/typo3-app:${IMAGETAG:-latest}" \
+    --label="org.nethserver.images=docker.io/postgres:15.10-alpine3.19 ghcr.io/phillopp/typo3-app:${IMAGETAG:-latest}" \
     "${container}"
 # Commit the image
 buildah commit "${container}" "${repobase}/${reponame}"
