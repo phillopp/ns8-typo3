@@ -23,7 +23,10 @@ if os.getenv('INITIALIZED', default = 'False') == 'False':
     domain = os.getenv("TRAEFIK_HOST")
     fqdn = f"{schema}://{domain}"
 
-    subprocess.run(
+    # Wait for running podman container
+    subprocess.run("podman", "wait", "--condition=running", "typo3-app")
+
+    proc = subprocess.run(
         [
             "podman",
             "exec",
@@ -58,6 +61,7 @@ if os.getenv('INITIALIZED', default = 'False') == 'False':
             "--force",
             "-n"
         ])
-    agent.set_env("INITIALIZED", True)
 
-# ./vendor/bin/typo3 setup --server-type apache --driver postgres --host host.docker.internal --port 5432 --dbname typo3-test --username postgres --password Nethesis,1234 --admin-username admin --admin-user-password "AdminUser123!" --admin-email meine@mail.de --project-name Phillopp --create-site http://localhost --force -n
+    agent.assert_exp(proc.returncode == 0)
+
+    agent.set_env("INITIALIZED", True)
