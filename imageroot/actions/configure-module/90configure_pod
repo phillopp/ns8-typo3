@@ -10,6 +10,7 @@ import sys
 import agent
 import os
 import subprocess
+import time
 
 data = json.load(sys.stdin)
 
@@ -24,7 +25,11 @@ if os.getenv('INITIALIZED', default = 'False') == 'False':
     fqdn = f"{schema}://{domain}"
 
     # Wait for running podman container
-    subprocess.run("podman", "wait", "--condition=running", "typo3-app")
+    time.sleep(5)
+    subprocess.run(["podman", "wait", "--condition=running", "typo3-app"])
+
+    # Fix directory problems
+    subprocess.run(["podman", "exec", "typo3-app", "chown", "-R", "www-data", "config/"])
 
     proc = subprocess.run(
         [
