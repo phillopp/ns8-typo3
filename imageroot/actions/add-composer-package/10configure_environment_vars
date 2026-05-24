@@ -18,6 +18,12 @@ data = json.load(sys.stdin)
 pkg_name = data.get("packageName")
 pkg_version = data.get("packageVersion")
 
+composer_package = f"{pkg_name}:{pkg_version}"
+
+proc = subprocess.run(['podman', 'exec', '--user=www-data', 'typo3-app', 'composer', 'require', composer_package])
+
+agent.assert_exp(proc.returncode == 0)
+
 # Ensure file exists
 if not os.path.exists('packages.json'):
     with open('packages.json', 'w') as f:
@@ -29,8 +35,3 @@ with open('packages.json', 'r+') as f:
     f.seek(0)
     json.dump(packageData, f, indent=2)
     f.truncate()
-
-composer_package = f"{pkg_name}:{pkg_version}"
-
-proc = subprocess.run(['podman', 'exec', '--user=www-data', 'typo3-app', 'composer', 'require', composer_package])
-agent.assert_exp(proc.returncode == 0)

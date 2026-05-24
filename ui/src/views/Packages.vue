@@ -1,7 +1,3 @@
-<!--
-  Copyright (C) 2022 Nethesis S.r.l.
-  SPDX-License-Identifier: GPL-3.0-or-later
--->
 <template>
   <cv-grid fullWidth>
     <cv-row>
@@ -24,15 +20,14 @@
         <cv-tile light>
           <cv-form @submit.prevent="configureModule">
             <h1>Packages</h1>
-            {{ packages }}
             <cv-grid>
               <cv-row>
                 <cv-column :sm="4" :lg="6">
                   <cv-tile
                     kind="clickable"
                     @click.prevent="onRemovePackage(pkg)"
-                    v-for="(version, pkg) in packages"
-                    :key="pkg"
+                    v-for="(version, pkg) in this.packages"
+                    v-bind:key="pkg"
                   >
                     {{ pkg }}: {{ version }}<br />
                     Zum Entfernen klicken

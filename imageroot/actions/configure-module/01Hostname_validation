@@ -29,7 +29,7 @@ additional_hosts = data.get("additionalHostnames")
 given_hosts = os.environ.get('ADDITIONAL_HOSTNAMES','').split(',')
 hosts_to_delete = os.environ.get('ADDITIONAL_HOSTNAMES','').split(',')
 additional_hosts_list = []
-for additional_host in additional_hosts.splitlines():
+for additional_host in additional_hosts:
     if not agent.http_route_in_use(domain=additional_host) or additional_host in given_hosts:
         additional_hosts_list.append(additional_host)
     if additional_host in given_hosts:
