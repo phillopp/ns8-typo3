@@ -1,5 +1,5 @@
 {
   "dependencies": {
-    "@nethserver/ns8-ui-lib": "^1.0.0"
+    "@nethserver/ns8-ui-lib": "^2.0.0"
   }
 }
